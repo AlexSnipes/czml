@@ -1287,6 +1287,38 @@ class Description(_CZMLBaseObject):
         self.string = data.get('string', None)
         self.reference = data.get('reference', None)
 
+class Properties(_CZMLBaseObject):
+
+
+    text = None
+    show = False
+    horizontalOrigin = None
+    scale = None
+    pixelOffset = None
+    fillColor = None
+
+    def __init__(self, text=None, show=False):
+        self.text = text
+        self.show = show
+
+    def data(self):
+        d = {}
+        if self.show:
+            d['show'] = True
+        if self.show == False:
+            d['show'] = False
+        if self.text:
+            d['text'] = self.text
+        if self.horizontalOrigin:
+            d['horizontalOrigin'] = self.horizontalOrigin
+        if self.scale:
+            d['scale'] = self.scale
+        if self.pixelOffset:
+            d['pixelOffset'] = self.pixelOffset
+        if self.fillColor:
+            d['fillColor'] = self.fillColor
+        return d
+
 class CZMLPacket(_CZMLBaseObject):
     """  A CZML packet describes the graphical properties for a single
     object in the scene, such as a single aircraft.
@@ -1381,7 +1413,10 @@ class CZMLPacket(_CZMLBaseObject):
     # try adding description
     _description = None
 
-    _properties = ('id', 'description', 'version', 'availability', 'billboard', 'clock', 'position', 'label', 'point', 'positions', 'polyline', 'polygon', 'path', 'orientation', 'ellipse', 'ellipsoid', 'cone', 'pyramid')
+    #custom properties
+    _custom = None
+
+    _properties = ('id', 'description', 'version', 'availability', 'billboard', 'clock', 'position', 'label', 'point', 'positions', 'polyline', 'polygon', 'path', 'orientation', 'ellipse', 'ellipsoid', 'cone', 'pyramid', 'custom')
 
     # TODO: Figure out how to set __doc__ from here.
     # position = class_property(Position, 'position')
@@ -1633,6 +1668,28 @@ class CZMLPacket(_CZMLBaseObject):
             self._cone = p
         elif cone is None:
             self._cone = None
+        else:
+            raise TypeError
+
+    @property
+    def custom(self):
+        """A polygon, which is a closed figure on the surface of the Earth.
+        The vertices of the polygon are specified by the positions
+        property."""
+
+        if self._custom is not None:
+            return self._custom.data()
+
+    @polygon.setter
+    def custom(self, custom):
+        if isinstance(custom, Properties):
+            self._custom = custom
+        elif isinstance(custom, dict):
+            p = Properties()
+            p.load(custom)
+            self._custom = p
+        elif custom is None:
+            self._custom = None
         else:
             raise TypeError
 

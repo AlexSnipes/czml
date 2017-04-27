@@ -1695,7 +1695,7 @@ class Model(_CZMLBaseObject):
 
     minimumPixelSize = None
 
-    _runAnimations = None
+    runAnimations = None
 
     maximumScale = None
 

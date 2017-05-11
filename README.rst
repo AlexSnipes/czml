@@ -21,8 +21,8 @@ To run the tests (in the czml directory)::
 
 czml is continually tested with *Travis CI*
 
-.. image:: https://api.travis-ci.org/alexsnipes/czml.png
-    :target: https://travis-ci.org/alexsnipes/czml
+.. image:: https://api.travis-ci.org/AlexSnipes/czml.png
+    :target: https://travis-ci.org/AlexSnipes/czml
 
 .. image:: https://coveralls.io/repos/cleder/czml/badge.png?branch=master
     :target: https://coveralls.io/r/cleder/czml?branch=master
